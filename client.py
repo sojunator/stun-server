@@ -17,10 +17,39 @@ def punchThrough(address, sock):
         sock.sendto(b'hi mark', address)
         try:
             sock.recvfrom(1024) 
+            print("I punched through?")
         except socket.timeout:
             print('REQUEST TIMED OUT')
 
- 
+def waitForPunch(sock):
+    data = ""
+    address = ""
+    while not punched:
+        try:
+            time.sleep(1)
+            data, address = sock.recvfrom(1024) 
+            print("{} wants to talk to us".format(data.decode("utf-8")))
+            punched = false
+
+        except socket.timeout:
+            print('REQUEST TIMED OUT')
+
+    punched = false
+    while not punched:
+        try:
+            time.sleep(1)
+            sendto.socket(b'hi mark', address)
+            punched = true
+        except socket.timeout:
+            print('REQUEST TIMED OUT')
+
+    print("We punched through")
+
+
+
+
+
+
 
 
 
@@ -49,4 +78,5 @@ if mode == "punch":
             punchThrough((request, int(messageString)), client_socket)
     except socket.timeout:
         print('REQUEST TIMED OUT')
-
+else:
+    waitForPunch(client_socket)

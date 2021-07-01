@@ -27,6 +27,13 @@ while True:
 
         if ipLookUp in conn_dict.keys():
             server_socket.sendto(bytearray(conn_dict[ipLookUp], "utf8"), address)
+
+
+
+            server_socket.sendto(bytearray())
+
+
+
             print("resolved it")
         else:
             server_socket.sendto(b'404', address)
