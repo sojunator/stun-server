@@ -13,10 +13,7 @@ while True:
     if message == "pulse":
         print("Heartbeat from: {}".format(address))
         conn_dict[address[0]] = address[1]
-
-    elif message == "register":
-        print("Hello from: {}".format(address))
-        conn_dict[address[0]] = address[1]
+ 
     else:
 
         print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
