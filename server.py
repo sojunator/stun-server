@@ -22,10 +22,8 @@ while True:
          
 
             if ipLookUp in conn_dict.keys():
-                print(conn_dict[ipLookUp])
-                print(bytearray(conn_dict[ipLookUp], "utf-8"))
                                
-                server_socket.sendto(bytearray(conn_dict[ipLookUp], "utf-8"), address)
+                server_socket.sendto(bytearray(str(conn_dict[ipLookUp]), "utf-8"), address)
                 
                 puncherAddress = list(address)
                 puncherAddress[1] = str(puncherAddress[1])
