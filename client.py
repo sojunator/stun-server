@@ -86,7 +86,7 @@ client_socket.settimeout(1.0)
 punchServerAddr = ("104.248.28.213", 12000)
 
 
-mode = "punch"
+mode = ""
 
 t = Thread(target=holdPortOpenToSTUN, args=(punchServerAddr, client_socket))
 t.start()

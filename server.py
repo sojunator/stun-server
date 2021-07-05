@@ -42,5 +42,5 @@ while True:
             else:
                 server_socket.sendto(b'404', address)
                 print("I could not resolve this")
-    except:
+    except socket.timeout:
         print("Waiting for connection") 
