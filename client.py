@@ -9,7 +9,7 @@ def formatIpForUsage(address):
 	# "192.168.10.4:1234" is supplied
 
 	result = address.split(":")
-
+	print(result)
 	if len(result) != 2:
 		result[1] = int(result[1])
 		return tuple(result)
@@ -19,21 +19,21 @@ def formatIpForUsage(address):
 def holdPortOpenToSTUN(addr, socket): 
 	while not punched:
 		socket.sendto(b'pulse', addr)
-		print("maintaining the port open")
+		print("STUN SERVER-CONNECTION: maintaining the port open")
 
 		time.sleep(5)
 
 def punchThrough(address, sock):  
-	print("attempting to punch through to: {}".format(address)) 
+	print("PUNCH-TARGET: attempting to punch through to: {}".format(address)) 
 
 	while not punched:
 		sock.sendto(b'hi mark', address)
 		try:
-			sleep(1)
+			time.sleep(1)
 			data, address = sock.recvfrom(1024)
-			print("I punched through to {} who said: {}".format(address[1], data.decode("utf-8")))
+			print("PUNCH-TARGET: I punched through to {} who said: {}".format(address[1], data.decode("utf-8")))
 		except socket.timeout:
-			print('REQUEST TIMED OUT')
+			print("PUNCH-TARGET: timed out - {} did not send anything to me".format(address))
 
 def waitForPunch(sock):
 	# What port is this?
@@ -49,13 +49,13 @@ def waitForPunch(sock):
 			# "192.168.0.1:1234"
 			data, address = sock.recvfrom(1024) 
 
-			print("{} wants to talk to us".format(data.decode("utf-8")))
+			print("PUNCH-RECEIVER: {} wants to talk to us".format(data.decode("utf-8")))
 			punched = false
  
-			punchThroughTo = formatIpForUsage(data)
+			punchThroughTo = formatIpForUsage(data.decode("utf-8"))
 
 		except socket.timeout:
-			print('Waiting for a punch attempt')
+			print("PUNCH-RECEIVER: Waiting for a punch attempt")
 
 	punched = false
 	while not punched:
@@ -91,7 +91,7 @@ mode = "punch"
 t = Thread(target=holdPortOpenToSTUN, args=(punchServerAddr, client_socket))
 t.start()
 
-print("Talking to:{}".format(punchServerAddr[0]))
+print("STUN SERVER-CONNECTION: Talking to:{}".format(punchServerAddr[0]))
 
 client_socket.sendto(request, punchServerAddr)
 if mode == "punch":
@@ -103,13 +103,15 @@ if mode == "punch":
 
 
 		if messageString == "404":
-			print("Host could not resolve this")
+			print("STUN SERVER-CONNECTION: Host could not resolve this")
 		else:
-			punchThroughTo = formatIpForUsage(data)
-			print("Host told me to contact via: {}:{}".format(request, messageString))
-			punchThrough((request, punchThroughTo, client_socket))
+			print("STUN SERVER-CONNECTION: Host told me to contact via: {}:{}".format(request, messageString))
+
+			punchThroughTo=(request, int(messageString))
+
+			punchThrough(punchThroughTo, client_socket)
 
 	except socket.timeout:
-		print('REQUEST TIMED OUT')
+		print('STUN SERVER-CONNECTION: REQUEST TIMED OUT')
 else:
 	waitForPunch(client_socket)
