@@ -40,6 +40,7 @@ def waitForPunch(sock):
 	data = ""
 	address = ""
 	punchThroughTo  = ""
+	punched = False
 	while not punched:
 		try:
 			time.sleep(1)
@@ -50,14 +51,14 @@ def waitForPunch(sock):
 			data, address = sock.recvfrom(1024) 
 
 			print("PUNCH-RECEIVER: {} wants to talk to us".format(data.decode("utf-8")))
-			punched = false
+			punched = False
  
 			punchThroughTo = formatIpForUsage(data.decode("utf-8"))
 
 		except socket.timeout:
 			print("PUNCH-RECEIVER: Waiting for a punch attempt")
 
-	punched = false
+	punched = False
 	while not punched:
 		try:
 			time.sleep(1)
@@ -82,7 +83,6 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 client_socket.settimeout(1.0)
 
 
-request = b'83.73.233.41'
 punchServerAddr = ("104.248.28.213", 12000)
 
 
@@ -91,10 +91,13 @@ mode = "punch"
 t = Thread(target=holdPortOpenToSTUN, args=(punchServerAddr, client_socket))
 t.start()
 
-print("STUN SERVER-CONNECTION: Talking to:{}".format(punchServerAddr[0]))
 
-client_socket.sendto(request, punchServerAddr)
 if mode == "punch":
+	request = b'188.148.26.151'
+	print("STUN SERVER-CONNECTION: Talking to:{}".format(punchServerAddr[0]))
+
+	client_socket.sendto(request, punchServerAddr)
+
 	try:
 		request = request.decode("utf-8")
 		data, server = client_socket.recvfrom(1024)
