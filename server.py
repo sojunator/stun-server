@@ -18,7 +18,7 @@ while True:
 
             print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
  
-            ipLookUp = message
+            ipLookUp = "188.148.26.151"
          
 
             if ipLookUp in conn_dict.keys():
@@ -41,6 +41,7 @@ while True:
 
                 print("resolved it")
             else:
+                
                 server_socket.sendto(b'404', address)
                 print("I could not resolve this")
     except socket.timeout:
