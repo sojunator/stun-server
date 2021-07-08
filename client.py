@@ -9,8 +9,7 @@ def formatIpForUsage(address):
 	# "192.168.10.4:1234" is supplied
 
 	result = address.split(":")
-	print(result)
-	if len(result) != 2:
+	if len(result) == 2:
 		result[1] = int(result[1])
 		return tuple(result)
 
@@ -51,10 +50,10 @@ def waitForPunch(sock):
 			data, address = sock.recvfrom(1024) 
 
 			print("PUNCH-RECEIVER: {} wants to talk to us".format(data.decode("utf-8")))
-			punched = False
+			
  
 			punchThroughTo = formatIpForUsage(data.decode("utf-8"))
-
+			punched = True
 		except socket.timeout:
 			print("PUNCH-RECEIVER: Waiting for a punch attempt")
 
@@ -62,8 +61,8 @@ def waitForPunch(sock):
 	while not punched:
 		try:
 			time.sleep(1)
-			sendto.socket(b'hi mark', punchThroughTo)
-			data, address = socket.recvfrom(1024)
+			sock.sendto(b'hi mark', punchThroughTo)
+			data, address = sock.recvfrom(1024)
 			
 			print(data.decode("utf-8"))
 		except socket.timeout:

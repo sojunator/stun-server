@@ -3,13 +3,13 @@ import socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind(('', 12000))
 
-conn_dict = {"83.73.233.41" : "44455" }
+conn_dict = {"188.148.26.151" : "7776" }
 
 while True:
     try: 
         message, address = server_socket.recvfrom(1024)
         message = message.decode("utf-8") 
-        conn_dict[address[0]] = 7776; #address[1]
+        conn_dict[address[0]] = address[1]
 
         if message == "pulse":
             print("Heartbeat from: {}".format(address)) 
@@ -23,7 +23,7 @@ while True:
 
             if ipLookUp in conn_dict.keys():
                                
-                server_socket.sendto(bytearray(str(conn_dict[ipLookUp]), "utf-8"), address)
+                server_socket.sendto(bytearray(str(7776), "utf-8"), address)
                 
                 puncherAddress = list(address)
                 puncherAddress[1] = str(puncherAddress[1])
