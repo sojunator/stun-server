@@ -28,7 +28,7 @@ while True:
                 puncherAddress = list(address)
                 puncherAddress[1] = str(puncherAddress[1])
                 puncherAddress = ":".join(puncherAddress)
-                puncheAddress += '\0'
+                puncherAddress += '\0'
 
 
 
