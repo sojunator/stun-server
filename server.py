@@ -17,7 +17,7 @@ while True:
             testAddr = list(address)
             testAddr[1] = str(testAddr[1])
             testAddr = ":".join(testAddr)
- 
+            testAddr += '\0'
             server_socket.sendto(bytearray(testAddr, "utf-8"), address)
         else:
 
