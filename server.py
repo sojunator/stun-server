@@ -3,7 +3,7 @@ import socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind(('', 12000))
 
-conn_dict = {"188.148.26.151" : "7776" }
+conn_dict = {}
 
 while True:
     try: 
@@ -18,12 +18,12 @@ while True:
 
             print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
  
-            ipLookUp = "188.148.26.151"
+            ipLookUp = message;
          
 
             if ipLookUp in conn_dict.keys():
                                
-                server_socket.sendto(bytearray(str(7776), "utf-8"), address)
+               # server_socket.sendto(bytearray(str(7777), "utf-8"), address)
                 
                 puncherAddress = list(address)
                 puncherAddress[1] = str(puncherAddress[1])
@@ -41,7 +41,7 @@ while True:
 
                 print("resolved it")
             else:
-                
+
                 server_socket.sendto(b'404', address)
                 print("I could not resolve this")
     except socket.timeout:
