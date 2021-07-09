@@ -13,7 +13,7 @@ while True:
 
         if message[:5] == "pulse":
             print("Heartbeat from: {}".format(address)) 
-            server_socket.sendto(bytearray("hello\\0", "utf-8"), address)
+            server_socket.sendto(bytearray(address, "utf-8"), address)
         else:
 
             print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
