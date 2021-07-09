@@ -14,11 +14,6 @@ while True:
         if message[:5] == "pulse":
             print("Heartbeat from: {}".format(address))
 
-            testAddr = list(address)
-            testAddr[1] = str(testAddr[1])
-            testAddr = ":".join(testAddr)
-            testAddr += '\0'
-            server_socket.sendto(bytearray(testAddr, "utf-8"), address)
         else:
 
             print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
@@ -33,6 +28,7 @@ while True:
                 puncherAddress = list(address)
                 puncherAddress[1] = str(puncherAddress[1])
                 puncherAddress = ":".join(puncherAddress)
+                puncheAddress += '\0'
 
 
 
