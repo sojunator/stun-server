@@ -15,8 +15,8 @@ while True:
             print("Heartbeat from: {}".format(address))
 
             testAddr = list(address)
-            testAddr[1] = str(puncherAddress[1])
-            testAddr = ":".join(puncherAddress)
+            testAddr[1] = str(testAddr[1])
+            testAddr = ":".join(testAddr)
  
             server_socket.sendto(bytearray(testAddr, "utf-8"), address)
         else:
