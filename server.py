@@ -12,8 +12,13 @@ while True:
         conn_dict[address[0]] = address[1]
 
         if message[:5] == "pulse":
-            print("Heartbeat from: {}".format(address)) 
-            server_socket.sendto(bytearray(address, "utf-8"), address)
+            print("Heartbeat from: {}".format(address))
+
+            testAddr = list(address)
+            testAddr[1] = str(puncherAddress[1])
+            testAddr = ":".join(puncherAddress)
+ 
+            server_socket.sendto(bytearray(testAddr, "utf-8"), address)
         else:
 
             print("{}:{} is requesting a connection to {}".format(address[0], address[1], message))
