@@ -10,6 +10,7 @@ while True:
         message, address = server_socket.recvfrom(1024)
         message = message.decode("utf-8") 
         conn_dict[address[0]] = address[1]
+        message = str(message)
         message += '\0'
         print("message: {} len: {}".format(message, message.len()))
         if message == "pulse":
