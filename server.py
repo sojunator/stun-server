@@ -9,10 +9,9 @@ while True:
     try: 
         message, address = server_socket.recvfrom(1024)
         message = message.decode("utf-8") 
-        conn_dict[address[0]] = address[1] 
-        message += '\0'
+        conn_dict[address[0]] = address[1]  
         print("message: {} len: {}".format(message, len(message)))
-        if message == "pulse":
+        if message == "pulse\0":
             print("Heartbeat from: {}".format(address))
 
         else:
