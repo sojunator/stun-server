@@ -11,6 +11,7 @@ while True:
         message = message.decode("utf-8") 
         conn_dict[address[0]] = address[1]
         message += '\0'
+        print("message: {} len: {}".format(message, message.len()))
         if message == "pulse":
             print("Heartbeat from: {}".format(address))
 
